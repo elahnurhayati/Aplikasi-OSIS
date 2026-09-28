@@ -1,0 +1,6 @@
+{
+  "name": "OSIS 360 - Sistem Manajemen Organisasi Siswa",
+  "description": "Aplikasi manajemen OSIS terlengkap untuk 1 tahun masa bakti. Kelola pengurus, program kerja, keuangan kas, arsip dokumen, surat menyurat, KTA & sertifikat, notulensi rapat, dan aspirasi siswa.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
