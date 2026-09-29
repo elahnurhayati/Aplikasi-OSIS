@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Lock, User, KeyRound, ShieldAlert, ArrowRight, School, Sparkles } from 'lucide-react';
+import { Lock, User, KeyRound, ShieldAlert, ArrowRight, Flame, ScrollText } from 'lucide-react';
 import { useOsis } from '../../context/OsisContext';
 
 export const LoginView: React.FC = () => {
@@ -14,133 +14,141 @@ export const LoginView: React.FC = () => {
     setErrorMsg(null);
     const success = login(username, password);
     if (!success) {
-      setErrorMsg('Username atau Password salah. Silakan periksa kembali!');
+      setErrorMsg('Kredensial Shinobi tidak cocok. Silakan periksa kembali!');
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF6F0] flex items-center justify-center p-4 selection:bg-[#7B1113] selection:text-[#FFFDD0]">
-      {/* Decorative subtle background accents */}
+    <div className="min-h-screen bg-[#0F172A] relative flex items-center justify-center p-4 selection:bg-[#F97316] selection:text-white overflow-hidden">
+      {/* Anime / Naruto Energy Chakra Background Gradients */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#7B1113]/5 rounded-full blur-3xl" />
-        <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#7B1113]/8 rounded-full blur-3xl" />
+        <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#F97316]/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#EA580C]/25 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#0284C7]/10 rounded-full blur-3xl pointer-events-none" />
       </div>
 
       <div className="w-full max-w-md relative z-10">
-        {/* Login Card */}
-        <div className="bg-[#FFFDF9] rounded-3xl border-2 border-[#EADBCE] shadow-xl overflow-hidden">
-          {/* Card Maroon Header */}
-          <div className="bg-gradient-to-br from-[#7B1113] via-[#851316] to-[#5A0C0E] text-[#FFFDD0] p-7 text-center relative overflow-hidden">
-            {/* Background seal watermark */}
-            <div className="absolute -right-6 -bottom-6 opacity-10 pointer-events-none">
-              <img
-                src={schoolProfile.logoOsisUrl}
-                alt=""
-                className="w-40 h-40 object-contain"
-              />
+        {/* Naruto Shinobi Card */}
+        <div className="bg-[#1E293B] rounded-3xl border-2 border-[#F97316]/60 shadow-2xl overflow-hidden backdrop-blur-md">
+          {/* Top Banner: Naruto Konoha Fire Header */}
+          <div className="bg-gradient-to-r from-[#EA580C] via-[#F97316] to-[#C2410C] text-white p-7 text-center relative overflow-hidden">
+            {/* Konoha Headband Plate Metallic Simulation */}
+            <div className="mx-auto max-w-[220px] bg-gradient-to-b from-slate-200 via-slate-100 to-slate-300 text-slate-800 rounded-lg py-1 px-3 border border-slate-400 shadow-inner flex items-center justify-between mb-3 text-[10px] font-black tracking-widest uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-slate-600" />
+              <span>KONOHAGAKURE</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-slate-600" />
             </div>
 
-            <div className="w-16 h-16 mx-auto mb-3 rounded-2xl bg-[#FFFDD0]/10 border border-[#FFFDD0]/30 p-2 backdrop-blur-xs flex items-center justify-center shadow-md">
+            <div className="w-20 h-20 mx-auto mb-2 rounded-2xl bg-white/10 border-2 border-white/40 p-1.5 backdrop-blur-xs flex items-center justify-center shadow-lg">
               <img
                 src={schoolProfile.logoOsisUrl}
-                alt="Logo OSIS / OSIM"
+                alt="Lambang Konoha OSIS"
                 className="w-full h-full object-contain"
               />
             </div>
 
-            <h1 className="text-xl font-extrabold tracking-tight text-[#FFFDD0]">
-              OSIS / OSIM 360
+            <h1 className="text-xl font-black tracking-tight text-white flex items-center justify-center gap-1.5">
+              <span>OSIS KONOHA 360</span>
+              <Flame className="w-5 h-5 text-amber-300 fill-amber-300 animate-bounce" />
             </h1>
-            <p className="text-xs text-[#F2D7B3] font-medium mt-1 truncate max-w-xs mx-auto">
+            <p className="text-xs text-orange-100 font-medium mt-0.5 truncate max-w-xs mx-auto">
               {schoolProfile.namaSekolah}
             </p>
-            <div className="mt-2 inline-block px-3 py-0.5 rounded-full bg-[#FFFDD0]/15 text-[#FFFDD0] text-[10px] font-semibold tracking-wider uppercase border border-[#FFFDD0]/20">
-              Masa Bakti {schoolProfile.masaBakti}
+            <div className="mt-2 inline-flex items-center gap-1 px-3 py-0.5 rounded-full bg-black/25 text-amber-200 text-[10px] font-bold tracking-wider uppercase border border-white/20">
+              <span>Semangat Api (Hi no Ishi)</span>
+              <span>·</span>
+              <span>{schoolProfile.masaBakti}</span>
             </div>
           </div>
 
-          {/* Form Container */}
-          <div className="p-7 space-y-5">
+          {/* Form Content */}
+          <div className="p-7 space-y-5 bg-[#0F172A]/90">
             <div className="text-center space-y-1">
-              <h2 className="text-base font-bold text-[#3D1416]">
-                Masuk ke Panel Manajemen
+              <h2 className="text-base font-extrabold text-white flex items-center justify-center gap-1.5">
+                <ScrollText className="w-4 h-4 text-[#F97316]" />
+                Portal Masuk Dewan Shinobi
               </h2>
-              <p className="text-xs text-[#7A6158]">
-                Silakan masukkan kredensial akun administrator
+              <p className="text-xs text-slate-400">
+                Akses panel kendali administrasi 1 tahun kepengurusan
               </p>
             </div>
 
             {errorMsg && (
-              <div className="p-3 bg-[#FDF2F2] border border-[#F5C2C7] rounded-xl flex items-center gap-2 text-xs text-[#842029]">
-                <ShieldAlert className="w-4 h-4 shrink-0 text-[#842029]" />
+              <div className="p-3 bg-rose-950/80 border border-rose-500/60 rounded-xl flex items-center gap-2 text-xs text-rose-200 font-medium">
+                <ShieldAlert className="w-4 h-4 shrink-0 text-rose-400" />
                 <span>{errorMsg}</span>
               </div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-4 text-xs">
               <div>
-                <label className="block font-bold text-[#3D1416] mb-1.5">
-                  Username
+                <label className="block font-bold text-slate-200 mb-1.5">
+                  User
                 </label>
                 <div className="relative">
-                  <User className="w-4 h-4 text-[#8C6D62] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <User className="w-4 h-4 text-orange-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                   <input
                     type="text"
                     required
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="w-full pl-10 pr-3 py-2.5 bg-[#FAF6F0] border border-[#E0D0C0] rounded-xl text-[#3D1416] font-medium focus:outline-none focus:ring-2 focus:ring-[#7B1113] focus:bg-white transition-colors"
-                    placeholder="Masukkan username"
+                    className="w-full pl-10 pr-3 py-2.5 bg-[#1E293B] border border-slate-700 rounded-xl text-white font-medium focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316] transition-colors"
+                    placeholder="Masukkan nama user"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block font-bold text-[#3D1416] mb-1.5">
-                  Password
+                <label className="block font-bold text-slate-200 mb-1.5">
+                  User P (Password)
                 </label>
                 <div className="relative">
-                  <KeyRound className="w-4 h-4 text-[#8C6D62] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <KeyRound className="w-4 h-4 text-orange-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                   <input
                     type={showPassword ? 'text' : 'password'}
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-10 pr-10 py-2.5 bg-[#FAF6F0] border border-[#E0D0C0] rounded-xl text-[#3D1416] font-medium focus:outline-none focus:ring-2 focus:ring-[#7B1113] focus:bg-white transition-colors"
+                    className="w-full pl-10 pr-12 py-2.5 bg-[#1E293B] border border-slate-700 rounded-xl text-white font-medium focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316] transition-colors"
                     placeholder="Masukkan password"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-semibold text-[#8C6D62] hover:text-[#7B1113]"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 hover:text-amber-400"
                   >
-                    {showPassword ? 'Sembunyi' : 'Lihat'}
+                    {showPassword ? 'Tutup' : 'Lihat'}
                   </button>
                 </div>
               </div>
 
               {/* Default Account Hint Box */}
-              <div className="p-3 bg-[#F5ECE1] border border-[#E5D5C3] rounded-xl text-[11px] text-[#5C3D2E] space-y-0.5">
-                <div className="font-bold flex items-center gap-1 text-[#7B1113]">
-                  <Lock className="w-3 h-3" /> Akun Login Bawaan:
+              <div className="p-3 bg-[#1E293B] border border-[#F97316]/30 rounded-xl text-[11px] text-slate-300 space-y-1">
+                <div className="font-bold flex items-center gap-1.5 text-amber-400">
+                  <Lock className="w-3.5 h-3.5 text-[#F97316]" /> Kredensial Awal Akun:
                 </div>
-                <div>User : <strong className="text-[#3D1416] font-mono">Admin</strong></div>
-                <div>User P (Password) : <strong className="text-[#3D1416] font-mono">Admin123</strong></div>
+                <div className="flex items-center justify-between text-xs">
+                  <span>User : <strong className="text-white font-mono bg-black/30 px-1.5 py-0.5 rounded">Admin</strong></span>
+                  <span>User P : <strong className="text-white font-mono bg-black/30 px-1.5 py-0.5 rounded">Admin123</strong></span>
+                </div>
               </div>
 
               <button
                 type="submit"
-                className="w-full py-3 bg-[#7B1113] hover:bg-[#650E10] text-[#FFFDD0] font-bold rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 group cursor-pointer"
+                className="w-full py-3 bg-gradient-to-r from-[#EA580C] to-[#F97316] hover:from-[#C2410C] hover:to-[#EA580C] text-white font-extrabold rounded-xl transition-all shadow-lg hover:shadow-orange-500/25 flex items-center justify-center gap-2 group cursor-pointer"
               >
-                <span>Masuk ke Sistem OSIS 360</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                <span>Buka Segel & Masuk</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
             </form>
           </div>
 
           {/* Footer note */}
-          <div className="px-7 py-3 bg-[#FAF6F0] border-t border-[#EADBCE] text-center text-[11px] text-[#7A6158]">
-            Sistem Tata Kelola 1 Tahun Jabatan Madrasah & Sekolah
+          <div className="px-7 py-3 bg-[#0B1120] border-t border-slate-800 text-center text-[11px] text-slate-400 space-y-0.5">
+            <div>"Pantang Menyerah, Itulah Jalan Ninjaku!" · OSIS Shinobi Edition</div>
+            <div className="text-[10.5px] text-orange-400 font-semibold">
+              Aplikasi Ciptaan: <strong>Nandi Achdarizal Sutisna</strong>
+            </div>
           </div>
         </div>
       </div>

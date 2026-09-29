@@ -191,6 +191,22 @@ export const LaporanAkhirView: React.FC = () => {
       win.document.write(html);
       win.document.close();
       win.print();
+    } else {
+      const printIframe = document.createElement('iframe');
+      printIframe.style.position = 'fixed';
+      printIframe.style.right = '0';
+      printIframe.style.bottom = '0';
+      printIframe.style.width = '0';
+      printIframe.style.height = '0';
+      printIframe.style.border = '0';
+      document.body.appendChild(printIframe);
+      printIframe.contentWindow?.document.write(html);
+      printIframe.contentWindow?.document.close();
+      setTimeout(() => {
+        printIframe.contentWindow?.focus();
+        printIframe.contentWindow?.print();
+        setTimeout(() => document.body.removeChild(printIframe), 2000);
+      }, 500);
     }
   };
 

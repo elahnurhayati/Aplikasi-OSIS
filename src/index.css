@@ -7,20 +7,40 @@
 }
 
 @media print {
-  body {
+  @page {
+    size: auto;
+    margin: 10mm;
+  }
+
+  body, html {
     background: white !important;
     color: black !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
   }
-  .no-print {
+
+  .no-print, header, aside, footer {
     display: none !important;
   }
+
   .print-only {
     display: block !important;
   }
+
   .print-card-page {
     box-shadow: none !important;
     border: none !important;
     margin: 0 !important;
     padding: 0 !important;
+  }
+
+  /* Printable container */
+  .printable-document {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
   }
 }

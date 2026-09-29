@@ -7,6 +7,11 @@ import {
   ArsipDokumen,
   RapatNotulensi,
   AspirasiSiswa,
+  InventarisBarang,
+  PeminjamanBarang,
+  JadwalPiket,
+  BukuTamu,
+  Ekstrakurikuler,
 } from '../types';
 import {
   INITIAL_SCHOOL_PROFILE,
@@ -16,9 +21,15 @@ import {
   INITIAL_DOKUMEN,
   INITIAL_RAPAT,
   INITIAL_ASPIRASI,
+  INITIAL_INVENTARIS,
+  INITIAL_PEMINJAMAN,
+  INITIAL_PIKET,
+  INITIAL_BUKU_TAMU,
+  INITIAL_EKSKUL,
 } from '../data/initialData';
 
-const STORAGE_KEY = 'osis_360_management_data_v1';
+const STORAGE_KEY = 'osis_360_management_data_v2';
+const PWD_STORAGE_KEY = 'osis_admin_pwd_v1';
 
 interface OsisContextType {
   schoolProfile: SchoolProfile;
@@ -53,15 +64,42 @@ interface OsisContextType {
   updateAspirasiStatus: (id: string, status: AspirasiSiswa['status'], respon?: string, penanggap?: string) => void;
   deleteAspirasi: (id: string) => void;
 
+  // Inventaris & Logistik
+  inventaris: InventarisBarang[];
+  addInventaris: (item: Omit<InventarisBarang, 'id'>) => void;
+  updateInventaris: (id: string, data: Partial<InventarisBarang>) => void;
+  deleteInventaris: (id: string) => void;
+
+  // Peminjaman Sarana
+  peminjaman: PeminjamanBarang[];
+  addPeminjaman: (data: Omit<PeminjamanBarang, 'id' | 'kodePinjam'>) => void;
+  updatePeminjamanStatus: (id: string, status: PeminjamanBarang['status'], tglKembaliNyata?: string) => void;
+  deletePeminjaman: (id: string) => void;
+
+  // Ekstrakurikuler
+  ekskul: Ekstrakurikuler[];
+  addEkskul: (data: Omit<Ekstrakurikuler, 'id'>) => void;
+  updateEkskul: (id: string, data: Partial<Ekstrakurikuler>) => void;
+  deleteEkskul: (id: string) => void;
+
+  // Jadwal Piket & Buku Tamu
+  piket: JadwalPiket[];
+  updatePiket: (id: string, data: Partial<JadwalPiket>) => void;
+  bukuTamu: BukuTamu[];
+  addBukuTamu: (data: Omit<BukuTamu, 'id' | 'tanggal' | 'waktu'>) => void;
+  deleteBukuTamu: (id: string) => void;
+
   // Global utilities
   exportBackupJson: () => void;
   importBackupJson: (file: File) => Promise<boolean>;
   resetToDefault: () => void;
 
-  // Authentication
+  // Authentication & Security
   isAuthenticated: boolean;
+  adminUsername: string;
   login: (user: string, pass: string) => boolean;
   logout: () => void;
+  changePassword: (oldPass: string, newPass: string) => { success: boolean; message: string };
 
   // Computed metrics
   totalKasMasuk: number;
@@ -81,6 +119,22 @@ export const OsisProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [dokumen, setDokumen] = useState<ArsipDokumen[]>(INITIAL_DOKUMEN);
   const [rapat, setRapat] = useState<RapatNotulensi[]>(INITIAL_RAPAT);
   const [aspirasi, setAspirasi] = useState<AspirasiSiswa[]>(INITIAL_ASPIRASI);
+  const [inventaris, setInventaris] = useState<InventarisBarang[]>(INITIAL_INVENTARIS);
+  const [peminjaman, setPeminjaman] = useState<PeminjamanBarang[]>(INITIAL_PEMINJAMAN);
+  const [ekskul, setEkskul] = useState<Ekstrakurikuler[]>(INITIAL_EKSKUL);
+  const [piket, setPiket] = useState<JadwalPiket[]>(INITIAL_PIKET);
+  const [bukuTamu, setBukuTamu] = useState<BukuTamu[]>(INITIAL_BUKU_TAMU);
+
+  // Authentication State
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    return localStorage.getItem('osis_auth_session') === 'true';
+  });
+
+  const [adminPassword, setAdminPassword] = useState<string>(() => {
+    return localStorage.getItem(PWD_STORAGE_KEY) || 'Admin123';
+  });
+
+  const adminUsername = 'Admin';
 
   // Initialize from LocalStorage
   useEffect(() => {
@@ -95,6 +149,11 @@ export const OsisProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         if (parsed.dokumen) setDokumen(parsed.dokumen);
         if (parsed.rapat) setRapat(parsed.rapat);
         if (parsed.aspirasi) setAspirasi(parsed.aspirasi);
+        if (parsed.inventaris) setInventaris(parsed.inventaris);
+        if (parsed.peminjaman) setPeminjaman(parsed.peminjaman);
+        if (parsed.ekskul) setEkskul(parsed.ekskul);
+        if (parsed.piket) setPiket(parsed.piket);
+        if (parsed.bukuTamu) setBukuTamu(parsed.bukuTamu);
       }
     } catch (e) {
       console.error('Gagal membaca data dari penyimpanan lokal:', e);
@@ -115,13 +174,62 @@ export const OsisProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         dokumen,
         rapat,
         aspirasi,
+        inventaris,
+        peminjaman,
+        ekskul,
+        piket,
+        bukuTamu,
         savedAt: new Date().toISOString(),
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
     } catch (e) {
       console.warn('Penyimpanan lokal penuh atau tidak diizinkan:', e);
     }
-  }, [isLoaded, schoolProfile, pengurus, proker, kas, dokumen, rapat, aspirasi]);
+  }, [
+    isLoaded,
+    schoolProfile,
+    pengurus,
+    proker,
+    kas,
+    dokumen,
+    rapat,
+    aspirasi,
+    inventaris,
+    peminjaman,
+    ekskul,
+    piket,
+    bukuTamu,
+  ]);
+
+  // Auth actions
+  const login = (user: string, pass: string): boolean => {
+    const isUserValid = user.trim().toLowerCase() === adminUsername.toLowerCase();
+    const isPassValid = pass === adminPassword;
+
+    if (isUserValid && isPassValid) {
+      setIsAuthenticated(true);
+      localStorage.setItem('osis_auth_session', 'true');
+      return true;
+    }
+    return false;
+  };
+
+  const logout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem('osis_auth_session');
+  };
+
+  const changePassword = (oldPass: string, newPass: string): { success: boolean; message: string } => {
+    if (oldPass !== adminPassword) {
+      return { success: false, message: 'Password saat ini tidak sesuai.' };
+    }
+    if (!newPass || newPass.trim().length < 4) {
+      return { success: false, message: 'Password baru minimal 4 karakter.' };
+    }
+    setAdminPassword(newPass);
+    localStorage.setItem(PWD_STORAGE_KEY, newPass);
+    return { success: true, message: 'Password admin berhasil diperbarui!' };
+  };
 
   // Profile actions
   const updateSchoolProfile = (updated: Partial<SchoolProfile>) => {
@@ -240,10 +348,99 @@ export const OsisProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setAspirasi((prev) => prev.filter((a) => a.id !== id));
   };
 
+  // Inventaris actions
+  const addInventaris = (item: Omit<InventarisBarang, 'id'>) => {
+    const newItem: InventarisBarang = {
+      ...item,
+      id: `inv-${Date.now()}`,
+    };
+    setInventaris((prev) => [newItem, ...prev]);
+  };
+
+  const updateInventaris = (id: string, data: Partial<InventarisBarang>) => {
+    setInventaris((prev) => prev.map((inv) => (inv.id === id ? { ...inv, ...data } : inv)));
+  };
+
+  const deleteInventaris = (id: string) => {
+    setInventaris((prev) => prev.filter((inv) => inv.id !== id));
+  };
+
+  // Peminjaman actions
+  const addPeminjaman = (data: Omit<PeminjamanBarang, 'id' | 'kodePinjam'>) => {
+    const seq = String(peminjaman.length + 1).padStart(3, '0');
+    const newPinjam: PeminjamanBarang = {
+      ...data,
+      id: `pinjam-${Date.now()}`,
+      kodePinjam: `PINJAM/${new Date().getFullYear()}/${seq}`,
+    };
+    setPeminjaman((prev) => [newPinjam, ...prev]);
+  };
+
+  const updatePeminjamanStatus = (
+    id: string,
+    status: PeminjamanBarang['status'],
+    tglKembaliNyata?: string
+  ) => {
+    setPeminjaman((prev) =>
+      prev.map((p) =>
+        p.id === id
+          ? {
+              ...p,
+              status,
+              tanggalKembaliNyata: tglKembaliNyata || (status === 'Sudah Dikembalikan' ? new Date().toISOString().split('T')[0] : p.tanggalKembaliNyata),
+            }
+          : p
+      )
+    );
+  };
+
+  const deletePeminjaman = (id: string) => {
+    setPeminjaman((prev) => prev.filter((p) => p.id !== id));
+  };
+
+  // Ekstrakurikuler actions
+  const addEkskul = (data: Omit<Ekstrakurikuler, 'id'>) => {
+    const newEkskul: Ekstrakurikuler = {
+      ...data,
+      id: `eks-${Date.now()}`,
+    };
+    setEkskul((prev) => [...prev, newEkskul]);
+  };
+
+  const updateEkskul = (id: string, data: Partial<Ekstrakurikuler>) => {
+    setEkskul((prev) => prev.map((e) => (e.id === id ? { ...e, ...data } : e)));
+  };
+
+  const deleteEkskul = (id: string) => {
+    setEkskul((prev) => prev.filter((e) => e.id !== id));
+  };
+
+  // Piket actions
+  const updatePiket = (id: string, data: Partial<JadwalPiket>) => {
+    setPiket((prev) => prev.map((p) => (p.id === id ? { ...p, ...data } : p)));
+  };
+
+  // Buku Tamu actions
+  const addBukuTamu = (data: Omit<BukuTamu, 'id' | 'tanggal' | 'waktu'>) => {
+    const now = new Date();
+    const newTamu: BukuTamu = {
+      ...data,
+      id: `tamu-${Date.now()}`,
+      tanggal: now.toISOString().split('T')[0],
+      waktu: now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB',
+    };
+    setBukuTamu((prev) => [newTamu, ...prev]);
+  };
+
+  const deleteBukuTamu = (id: string) => {
+    setBukuTamu((prev) => prev.filter((t) => t.id !== id));
+  };
+
   // Backup & Restore
   const exportBackupJson = () => {
     const payload = {
-      appName: 'OSIS 360 Backup',
+      appName: 'OSIS KONOHA 360 Backup',
+      creator: 'Nandi Achdarizal Sutisna',
       exportDate: new Date().toISOString(),
       schoolProfile,
       pengurus,
@@ -252,16 +449,19 @@ export const OsisProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       dokumen,
       rapat,
       aspirasi,
+      inventaris,
+      peminjaman,
+      ekskul,
+      piket,
+      bukuTamu,
     };
     const jsonString = JSON.stringify(payload, null, 2);
     const blob = new Blob([jsonString], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `BACKUP_OSIS360_${schoolProfile.masaBakti.replace('/', '_')}_${new Date().toISOString().split('T')[0]}.json`;
-    document.body.appendChild(a);
+    a.download = `OSIS_KONOHA_BACKUP_${schoolProfile.namaSekolah.replace(/[^a-zA-Z0-9]/g, '_')}_${new Date().toISOString().split('T')[0]}.json`;
     a.click();
-    document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
 
@@ -276,34 +476,20 @@ export const OsisProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       if (parsed.dokumen && Array.isArray(parsed.dokumen)) setDokumen(parsed.dokumen);
       if (parsed.rapat && Array.isArray(parsed.rapat)) setRapat(parsed.rapat);
       if (parsed.aspirasi && Array.isArray(parsed.aspirasi)) setAspirasi(parsed.aspirasi);
+      if (parsed.inventaris && Array.isArray(parsed.inventaris)) setInventaris(parsed.inventaris);
+      if (parsed.peminjaman && Array.isArray(parsed.peminjaman)) setPeminjaman(parsed.peminjaman);
+      if (parsed.ekskul && Array.isArray(parsed.ekskul)) setEkskul(parsed.ekskul);
+      if (parsed.piket && Array.isArray(parsed.piket)) setPiket(parsed.piket);
+      if (parsed.bukuTamu && Array.isArray(parsed.bukuTamu)) setBukuTamu(parsed.bukuTamu);
       return true;
     } catch (e) {
-      console.error('Gagal import backup data:', e);
+      console.error('Gagal mengimpor file backup:', e);
       return false;
     }
   };
 
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    return localStorage.getItem('osis_auth_session') === 'true';
-  });
-
-  const login = (user: string, pass: string): boolean => {
-    // Required credentials: User : Admin, Password : Admin123
-    if (user.trim().toLowerCase() === 'admin' && pass === 'Admin123') {
-      setIsAuthenticated(true);
-      localStorage.setItem('osis_auth_session', 'true');
-      return true;
-    }
-    return false;
-  };
-
-  const logout = () => {
-    setIsAuthenticated(false);
-    localStorage.removeItem('osis_auth_session');
-  };
-
   const resetToDefault = () => {
-    if (window.confirm('Apakah Anda yakin ingin mengatur ulang data ke template awal? Data perubahan saat ini akan digantikan.')) {
+    if (window.confirm('Apakah Anda yakin ingin mengatur ulang data ke template awal? Seluruh perubahan saat ini akan digantikan dengan data mula.')) {
       setSchoolProfile(INITIAL_SCHOOL_PROFILE);
       setPengurus(INITIAL_PENGURUS);
       setProker(INITIAL_PROKER);
@@ -311,6 +497,11 @@ export const OsisProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setDokumen(INITIAL_DOKUMEN);
       setRapat(INITIAL_RAPAT);
       setAspirasi(INITIAL_ASPIRASI);
+      setInventaris(INITIAL_INVENTARIS);
+      setPeminjaman(INITIAL_PEMINJAMAN);
+      setEkskul(INITIAL_EKSKUL);
+      setPiket(INITIAL_PIKET);
+      setBukuTamu(INITIAL_BUKU_TAMU);
       localStorage.removeItem(STORAGE_KEY);
     }
   };
@@ -358,12 +549,31 @@ export const OsisProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         addAspirasi,
         updateAspirasiStatus,
         deleteAspirasi,
+        inventaris,
+        addInventaris,
+        updateInventaris,
+        deleteInventaris,
+        peminjaman,
+        addPeminjaman,
+        updatePeminjamanStatus,
+        deletePeminjaman,
+        ekskul,
+        addEkskul,
+        updateEkskul,
+        deleteEkskul,
+        piket,
+        updatePiket,
+        bukuTamu,
+        addBukuTamu,
+        deleteBukuTamu,
         exportBackupJson,
         importBackupJson,
         resetToDefault,
         isAuthenticated,
+        adminUsername,
         login,
         logout,
+        changePassword,
         totalKasMasuk,
         totalKasKeluar,
         saldoKas,

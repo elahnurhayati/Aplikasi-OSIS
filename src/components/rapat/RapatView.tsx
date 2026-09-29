@@ -15,10 +15,11 @@ import {
   Trash2,
   X,
   Eye,
+  Upload,
 } from 'lucide-react';
 import { useOsis } from '../../context/OsisContext';
 import { RapatNotulensi, PesertaPresensi } from '../../types';
-import { exportToCSV, formatDateIndo, downloadFile } from '../../utils/exportUtils';
+import { exportToCSV, formatDateIndo, downloadFile, fileToBase64 } from '../../utils/exportUtils';
 import { generateKopSuratHtml } from '../../utils/documentTemplates';
 
 export const RapatView: React.FC = () => {
@@ -101,6 +102,17 @@ export const RapatView: React.FC = () => {
       catatan: catatan !== undefined ? catatan : updated[index].catatan,
     };
     setFormData({ ...formData, daftarPresensi: updated });
+  };
+
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      try {
+        const base64 = await fileToBase64(e.target.files[0]);
+        setFormData((prev) => ({ ...prev, fotoDokumentasiUrl: base64 }));
+      } catch (err) {
+        alert('Gagal memproses foto dokumentasi.');
+      }
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -500,6 +512,34 @@ export const RapatView: React.FC = () => {
                   className="w-full px-3 py-2 border border-slate-300 rounded-lg"
                   placeholder="Kesepakatan bersama dan PIC penanggung jawab tugas..."
                 />
+              </div>
+
+              {/* Foto Dokumentasi Rapat (Langsung dari HP/Komputer) */}
+              <div>
+                <label className="block font-semibold text-slate-700 mb-1">
+                  Foto Dokumentasi Rapat (Langsung dari HP / Komputer)
+                </label>
+                <div className="p-3 bg-orange-50/50 border border-orange-200 rounded-xl flex items-center gap-3">
+                  {formData.fotoDokumentasiUrl && (
+                    <div className="w-16 h-12 rounded-lg bg-white overflow-hidden shrink-0 border border-orange-200 shadow-2xs">
+                      <img src={formData.fotoDokumentasiUrl} alt="Dokumentasi" className="w-full h-full object-cover" />
+                    </div>
+                  )}
+                  <label className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-700 hover:to-amber-600 rounded-xl shadow-xs transition-all">
+                    <Upload className="w-3.5 h-3.5" />
+                    <span>{formData.fotoDokumentasiUrl ? 'Ganti Foto Dokumentasi' : 'Pilih Foto dari Galeri / Komputer'}</span>
+                    <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
+                  </label>
+                  {formData.fotoDokumentasiUrl && (
+                    <button
+                      type="button"
+                      onClick={() => setFormData((prev) => ({ ...prev, fotoDokumentasiUrl: undefined }))}
+                      className="text-xs text-rose-600 hover:text-rose-800 font-bold"
+                    >
+                      Hapus
+                    </button>
+                  )}
+                </div>
               </div>
 
               {/* Presensi Checklist Table */}

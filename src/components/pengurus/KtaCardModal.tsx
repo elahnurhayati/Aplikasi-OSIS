@@ -26,39 +26,45 @@ export const KtaCardModal: React.FC<KtaCardModalProps> = ({
   const renderSingleCard = (item: PengurusOsis) => (
     <div
       key={item.id}
-      className="w-[340px] h-[520px] bg-gradient-to-b from-slate-900 via-blue-950 to-slate-900 text-white rounded-2xl shadow-xl border-2 border-amber-400/60 p-5 flex flex-col justify-between relative overflow-hidden shrink-0 print-card-page"
+      className="w-[340px] h-[520px] bg-gradient-to-b from-slate-950 via-slate-900 to-[#1A2634] text-white rounded-2xl shadow-2xl border-2 border-orange-500/80 p-5 flex flex-col justify-between relative overflow-hidden shrink-0 print-card-page"
       style={{ pageBreakInside: 'avoid' }}
     >
       {/* Decorative background watermark */}
-      <div className="absolute inset-0 opacity-5 pointer-events-none flex items-center justify-center">
+      <div className="absolute inset-0 opacity-10 pointer-events-none flex items-center justify-center">
         <img src={school.logoOsisUrl} alt="" className="w-80 h-80 object-contain" />
       </div>
 
-      {/* Top Card Header */}
-      <div className="relative z-10 text-center border-b border-amber-400/40 pb-3">
-        <div className="flex items-center justify-center gap-2 mb-1">
+      {/* Top Card Header with Konoha Hitai-ate forehead protector motif */}
+      <div className="relative z-10 text-center border-b border-orange-500/40 pb-2.5">
+        <div className="mx-auto max-w-[190px] bg-gradient-to-b from-slate-200 via-slate-100 to-slate-300 text-slate-800 rounded py-0.5 px-2 border border-slate-400 shadow-inner flex items-center justify-between mb-1.5 text-[8.5px] font-black tracking-widest uppercase">
+          <span className="w-1 h-1 rounded-full bg-slate-600" />
+          <span>KONOHAGAKURE 🍃</span>
+          <span className="w-1 h-1 rounded-full bg-slate-600" />
+        </div>
+
+        <div className="flex items-center justify-center gap-2 mb-0.5">
           <img
             src={school.logoOsisUrl}
             alt="Logo OSIS"
-            className="w-8 h-8 object-contain"
+            className="w-7 h-7 object-contain"
           />
           <div className="text-left">
-            <div className="text-[10px] font-bold text-amber-300 tracking-wider uppercase leading-none">
-              KARTU TANDA ANGGOTA OSIS
+            <div className="text-[9px] font-black text-amber-400 tracking-wider uppercase leading-none">
+              KARTU TANDA PENGURUS SHINOBI
             </div>
-            <div className="text-[12px] font-extrabold text-white truncate max-w-[220px]">
+            <div className="text-[12px] font-extrabold text-white truncate max-w-[210px]">
               {school.namaSekolah}
             </div>
           </div>
         </div>
-        <div className="text-[9px] text-slate-300 font-medium tracking-wide">
-          {school.namaKabinet} · MASA BAKTI {school.masaBakti}
+        <div className="text-[8.5px] text-orange-200/80 font-bold tracking-wide">
+          {school.namaKabinet} · {school.masaBakti}
         </div>
       </div>
 
       {/* Photo and Badges */}
-      <div className="relative z-10 flex flex-col items-center my-auto py-2">
-        <div className="w-28 h-36 rounded-xl border-2 border-amber-400 overflow-hidden bg-slate-800 shadow-md mb-3 shrink-0">
+      <div className="relative z-10 flex flex-col items-center my-auto py-1">
+        <div className="w-28 h-36 rounded-xl border-2 border-orange-500 overflow-hidden bg-slate-800 shadow-xl mb-2.5 shrink-0 relative">
           <img
             src={item.fotoUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300'}
             alt={item.nama}
@@ -68,22 +74,25 @@ export const KtaCardModal: React.FC<KtaCardModalProps> = ({
                 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300';
             }}
           />
+          <div className="absolute top-1 right-1 bg-black/60 backdrop-blur-xs text-[8px] font-mono text-amber-400 px-1 py-0.5 rounded font-bold">
+            RANK-A
+          </div>
         </div>
 
-        <h3 className="text-sm font-bold text-white text-center tracking-tight leading-tight px-2">
+        <h3 className="text-sm font-black text-white text-center tracking-tight leading-tight px-2">
           {item.nama}
         </h3>
-        <div className="text-[11px] font-mono text-amber-300 font-semibold tracking-wider mt-0.5">
+        <div className="text-[11px] font-mono text-amber-400 font-bold tracking-wider mt-0.5">
           NISN: {item.nisn}
         </div>
-        <div className="mt-1 px-3 py-0.5 bg-amber-400 text-slate-950 text-[11px] font-extrabold rounded-full tracking-wide uppercase">
+        <div className="mt-1 px-3 py-0.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[10.5px] font-black rounded-full tracking-wide uppercase shadow-md shadow-orange-500/30">
           {item.jabatan}
         </div>
         <div className="text-[10px] text-slate-300 text-center max-w-[260px] truncate mt-1">
           {item.sekbid}
         </div>
         <div className="text-[10px] text-slate-400 mt-0.5">
-          Kelas: <span className="text-white font-medium">{item.kelas}</span>
+          Kelas: <span className="text-white font-bold">{item.kelas}</span>
         </div>
       </div>
 
@@ -91,16 +100,16 @@ export const KtaCardModal: React.FC<KtaCardModalProps> = ({
       <div className="relative z-10 border-t border-slate-700/80 pt-2 flex items-center justify-between text-[9px] text-slate-300">
         <div className="space-y-0.5">
           <div className="text-[8px] text-slate-400">Ditetapkan di {school.kota}</div>
-          <div className="font-semibold text-white">Pembina OSIS</div>
-          <div className="h-4" />
-          <div className="font-medium underline text-amber-300">{school.pembinaOsis}</div>
+          <div className="font-bold text-white">Pembina OSIS/OSIM</div>
+          <div className="h-3" />
+          <div className="font-bold underline text-amber-300">{school.pembinaOsis}</div>
         </div>
 
-        <div className="flex flex-col items-center gap-1">
-          <div className="w-10 h-10 bg-white p-1 rounded-md text-slate-900 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-0.5">
+          <div className="w-10 h-10 bg-white p-1 rounded-md text-slate-900 flex items-center justify-center shadow-xs">
             <QrCode className="w-8 h-8" />
           </div>
-          <span className="font-mono text-[8px] tracking-widest text-slate-400">RESMI-OSIS</span>
+          <span className="font-mono text-[7.5px] tracking-widest text-orange-400 font-bold">KONOHA-VERIFIED</span>
         </div>
       </div>
     </div>

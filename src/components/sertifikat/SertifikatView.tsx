@@ -97,21 +97,21 @@ export const SertifikatView: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={handlePrint}
-            className="px-3 py-1.5 text-xs font-semibold text-white bg-indigo-700 hover:bg-indigo-600 rounded-lg transition-colors flex items-center gap-1.5 shadow-xs"
+            className="px-3.5 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 rounded-xl transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
           >
             <Printer className="w-3.5 h-3.5" />
             Cetak Sertifikat (PDF)
           </button>
           <button
             onClick={handleDownload}
-            className="px-3 py-1.5 text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1.5 shadow-xs"
+            className="px-3 py-1.5 text-xs font-bold text-slate-800 bg-white border border-slate-300 hover:bg-orange-50 rounded-xl transition-colors flex items-center gap-1.5 shadow-xs cursor-pointer"
           >
-            <Download className="w-3.5 h-3.5 text-amber-400" />
+            <Download className="w-3.5 h-3.5 text-orange-600" />
             Unduh Berkas (.html)
           </button>
           <button
             onClick={handleSaveToArsip}
-            className="px-3 py-1.5 text-xs font-semibold text-emerald-800 bg-emerald-100 hover:bg-emerald-200 rounded-lg transition-colors flex items-center gap-1.5"
+            className="px-3 py-1.5 text-xs font-bold text-emerald-800 bg-emerald-100 hover:bg-emerald-200 rounded-xl transition-colors flex items-center gap-1.5 cursor-pointer"
           >
             <CheckCircle className="w-3.5 h-3.5" />
             Simpan ke Arsip

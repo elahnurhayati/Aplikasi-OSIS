@@ -6,6 +6,12 @@ import {
   ArsipDokumen,
   RapatNotulensi,
   AspirasiSiswa,
+  InventarisBarang,
+  PeminjamanBarang,
+  JadwalPiket,
+  BukuTamu,
+  Ekstrakurikuler,
+  KandidatPemilos,
 } from '../types';
 
 export const INITIAL_SCHOOL_PROFILE: SchoolProfile = {
@@ -20,8 +26,8 @@ export const INITIAL_SCHOOL_PROFILE: SchoolProfile = {
   website: 'https://sman1teladan.sch.id',
   akreditasi: 'A (Unggul)',
   masaBakti: '2026/2027',
-  namaKabinet: 'KABINET ADHIGANA NAWASENA',
-  mottoKabinet: 'Satu Tekad, Nyata Bergerak, Mengukir Jejak Prestasi Masa Depan',
+  namaKabinet: 'KABINET NAWASENA KONOHA - SEMANGAT API',
+  mottoKabinet: 'Pantang Menyerah, Kobarkan Semangat Api (Hi no Ishi), Mengabdi Demi Prestasi Madrasah',
   kepalaSekolah: 'Drs. H. Bambang Suryanegara, M.Pd.',
   nipKepalaSekolah: '19740512 199803 1 002',
   pembinaOsis: 'Siti Rahmawati, S.Pd., M.Si.',
@@ -30,16 +36,16 @@ export const INITIAL_SCHOOL_PROFILE: SchoolProfile = {
   nisnKetuaOsis: '0087492101',
   wakilKetuaOsis: 'Annisa Fitri Azzahra',
   nisnWakilKetuaOsis: '0086391042',
-  visi: 'Mewujudkan OSIS SMA Negeri 1 Teladan Nusantara sebagai episentrum kepemimpinan berkarakter Pancasila, adaptif terhadap inovasi digital, inklusif dalam karya, serta berdaya saing global.',
+  visi: 'Mewujudkan OSIS/OSIM sebagai episentrum kepemimpinan berkarakter tangguh, memiliki tekad pantang menyerah seperti Shinobi Konoha, adaptif terhadap inovasi digital, serta berdaya saing global.',
   misi: [
-    'Meningkatkan ketakwaan kepada Tuhan YME dan budi pekerti luhur di seluruh lingkungan madrasah/sekolah.',
+    'Meningkatkan ketakwaan kepada Tuhan YME dan budi pekerti luhur dengan mengobarkan Semangat Api kebaikan.',
     'Mendorong akselerasi prestasi akademik dan non-akademik siswa melalui pendampingan kompetisi terpadu.',
     'Mengembangkan platform digital kesekretariatan dan transparansi tata kelola organisasi secara akuntabel.',
-    'Menghidupkan iklim kewirausahaan siswa dan pelestarian seni budaya nusantara dengan wawasan global.',
-    'Menjadi jembatan aspirasi siswa yang proaktif, kritis, konstruktif, dan solutif bagi kemajuan sekolah.'
+    'Menghidupkan iklim kewirausahaan siswa dan solidaritas persaudaraan antarkelas tanpa kenal putus asa.',
+    'Menjadi jembatan aspirasi siswa yang proaktif, kritis, konstruktif, dan solutif bagi kemajuan madrasah/sekolah.'
   ],
-  logoSekolahUrl: '/src/assets/images/osis_official_emblem_1790637964880.jpg',
-  logoOsisUrl: '/src/assets/images/osis_official_emblem_1790637964880.jpg',
+  logoSekolahUrl: '/src/assets/images/konoha_council_emblem_1790708135100.jpg',
+  logoOsisUrl: '/src/assets/images/konoha_council_emblem_1790708135100.jpg',
 };
 
 export const INITIAL_PENGURUS: PengurusOsis[] = [
@@ -638,3 +644,335 @@ export const INITIAL_ASPIRASI: AspirasiSiswa[] = [
     ditanganiOleh: 'Annisa Fitri (Wakil Ketua Umum)'
   }
 ];
+
+export const INITIAL_INVENTARIS: InventarisBarang[] = [
+  {
+    id: 'inv-01',
+    kodeBarang: 'INV/ELK/001',
+    namaBarang: 'Wireless Microphone Shure Dual Handheld',
+    kategori: 'Sound & Elektronik',
+    jumlahTotal: 2,
+    kondisiBaik: 2,
+    kondisiRusak: 0,
+    sedangDipinjam: 1,
+    lokasi: 'Lemari Besi Sekretariat OSIS Rak 1',
+    keterangan: 'Kelengkapan: 2 mic, receiver, 2 kabel XLR, adaptor asli.'
+  },
+  {
+    id: 'inv-02',
+    kodeBarang: 'INV/ELK/002',
+    namaBarang: 'Portable Sound Speaker Active 12 Inch Trolley',
+    kategori: 'Sound & Elektronik',
+    jumlahTotal: 2,
+    kondisiBaik: 2,
+    kondisiRusak: 0,
+    sedangDipinjam: 1,
+    lokasi: 'Sudut Kiri Ruang Sekretariat',
+    keterangan: 'Baterai tahan 6 jam, Bluetooth & USB playback.'
+  },
+  {
+    id: 'inv-03',
+    kodeBarang: 'INV/PUB/001',
+    namaBarang: 'Kamera DSLR Canon EOS 200D II + Lensa 18-55mm',
+    kategori: 'Dokumentasi & Pubdekdok',
+    jumlahTotal: 1,
+    kondisiBaik: 1,
+    kondisiRusak: 0,
+    sedangDipinjam: 0,
+    lokasi: 'Dry Box Elektronik Sekbid TIK',
+    keterangan: 'Kelengkapan: 2 baterai, charger, strap, tas selempang, SD Card 64GB.'
+  },
+  {
+    id: 'inv-04',
+    kodeBarang: 'INV/ATB/001',
+    namaBarang: 'Bendera Pataka Resmi OSIS & Tiang Stainless',
+    kategori: 'Bendera & Atribut',
+    jumlahTotal: 3,
+    kondisiBaik: 3,
+    kondisiRusak: 0,
+    sedangDipinjam: 0,
+    lokasi: 'Ruang Protokoler',
+    keterangan: 'Kain beludru bordir emas, rumbai premium.'
+  },
+  {
+    id: 'inv-05',
+    kodeBarang: 'INV/ELK/003',
+    namaBarang: 'Handy Talkie (HT) Baofeng UV-5R Dual Band',
+    kategori: 'Sound & Elektronik',
+    jumlahTotal: 8,
+    kondisiBaik: 7,
+    kondisiRusak: 1,
+    sedangDipinjam: 4,
+    lokasi: 'Koper Komunikasi Sekbid Bela Negara',
+    keterangan: '1 unit antena cadangan rusak, 7 unit siap pakai koordinasi event.'
+  },
+  {
+    id: 'inv-06',
+    kodeBarang: 'INV/OLR/001',
+    namaBarang: 'Stopwatch Digital Presisi Seiko 100 Lap',
+    kategori: 'Olahraga & Lomba',
+    jumlahTotal: 4,
+    kondisiBaik: 4,
+    kondisiRusak: 0,
+    sedangDipinjam: 0,
+    lokasi: 'Kotak P3K & Olahraga',
+    keterangan: 'Digunakan saat classmeeting dan porseni.'
+  },
+  {
+    id: 'inv-07',
+    kodeBarang: 'INV/TND/001',
+    namaBarang: 'Tenda Sarnafil Kerucut Ukuran 3x3 Meter',
+    kategori: 'Tenda & Lapangan',
+    jumlahTotal: 4,
+    kondisiBaik: 3,
+    kondisiRusak: 1,
+    sedangDipinjam: 0,
+    lokasi: 'Gudang Sarpras Kesiswaan',
+    keterangan: 'Rangka aluminium, terpal anti air tebal.'
+  },
+  {
+    id: 'inv-08',
+    kodeBarang: 'INV/ATK/001',
+    namaBarang: 'Stempel Resmi Pengurus OSIS & Bak Tinta Otomatis',
+    kategori: 'Kesekretariatan & ATK',
+    jumlahTotal: 2,
+    kondisiBaik: 2,
+    kondisiRusak: 0,
+    sedangDipinjam: 0,
+    lokasi: 'Meja Sekretaris Umum',
+    keterangan: 'Warna tinta ungu resmi madrasah/sekolah.'
+  }
+];
+
+export const INITIAL_PEMINJAMAN: PeminjamanBarang[] = [
+  {
+    id: 'pinjam-01',
+    kodePinjam: 'PINJAM/2026/09/001',
+    namaPeminjam: 'Bagus Satrio (Ekskul Paskibra)',
+    kontak: '081299887766',
+    organisasiAtauKelas: 'Paskibra Sekolah',
+    namaBarang: 'Portable Sound Speaker Active 12 Inch Trolley',
+    jumlah: 1,
+    tanggalPinjam: '2026-09-28',
+    rencanaKembali: '2026-10-02',
+    status: 'Aktif Dipinjam',
+    petugasOsis: 'Fadhil Naufal (Sekretaris)',
+    catatan: 'Untuk latihan pengibaran bendera hari besar.'
+  },
+  {
+    id: 'pinjam-02',
+    kodePinjam: 'PINJAM/2026/09/002',
+    namaPeminjam: 'Alifian Ezra (Panitia Bulan Bahasa)',
+    kontak: '085912345678',
+    organisasiAtauKelas: 'Seksi Pubdekdok',
+    namaBarang: 'Handy Talkie (HT) Baofeng UV-5R Dual Band',
+    jumlah: 4,
+    tanggalPinjam: '2026-09-25',
+    rencanaKembali: '2026-09-29',
+    status: 'Aktif Dipinjam',
+    petugasOsis: 'M. Rizky Pratama (Ketua Umum)',
+    catatan: 'Gladi kotor panggung auditorium.'
+  }
+];
+
+export const INITIAL_PIKET: JadwalPiket[] = [
+  {
+    id: 'pkt-01',
+    hari: 'Senin',
+    koordinator: 'M. Rizky Pratama',
+    anggotaPiket: ['Fadhil Naufal', 'Ahmad Raihan', 'Nabila Zahra'],
+    tugasRutin: 'Pengawasan apel bendera, rekap presensi kelas, persiapan notulensi pekanan.'
+  },
+  {
+    id: 'pkt-02',
+    hari: 'Selasa',
+    koordinator: 'Annisa Fitri Azzahra',
+    anggotaPiket: ['Devan Arya', 'Bagus Satrio', 'Syifa Nur'],
+    tugasRutin: 'Pemeriksaan kebersihan sekretariat, rekap iuran kas harian, monitoring mading.'
+  },
+  {
+    id: 'pkt-03',
+    hari: 'Rabu',
+    koordinator: 'Devan Arya Wibowo',
+    anggotaPiket: ['Kayla Jessica', 'Dimas Aditya', 'Zalfa Maharani'],
+    tugasRutin: 'Pengecekan perlengkapan inventaris, melayani peminjaman barang ekskul.'
+  },
+  {
+    id: 'pkt-04',
+    hari: 'Kamis',
+    koordinator: 'Fadhil Naufal Ramadhan',
+    anggotaPiket: ['Alifian Ezra', 'Ahmad Raihan', 'Syifa Nur'],
+    tugasRutin: 'Pengarsipan surat masuk & keluar, update portal mading digital sekolah.'
+  },
+  {
+    id: 'pkt-05',
+    hari: 'Jumat',
+    koordinator: 'Ahmad Raihan Alfathan',
+    anggotaPiket: ['M. Rizky Pratama', 'Bagus Satrio', 'Kayla Jessica'],
+    tugasRutin: 'Koordinasi sholat Jumat & keputrian, inventarisasi kotak infaq amal.'
+  },
+  {
+    id: 'pkt-06',
+    hari: 'Sabtu',
+    koordinator: 'Kayla Jessica Gunawan',
+    anggotaPiket: ['Dimas Aditya', 'Alifian Ezra', 'Zalfa Maharani'],
+    tugasRutin: 'Monitoring kegiatan ekstrakurikuler sabtu, evaluasi sarana olahraga.'
+  }
+];
+
+export const INITIAL_BUKU_TAMU: BukuTamu[] = [
+  {
+    id: 'tamu-01',
+    tanggal: '2026-09-28',
+    waktu: '10:15 WIB',
+    nama: 'Farhan Dwi Putra',
+    kelasInstansi: 'Ketua Ekskul Rohis',
+    keperluan: 'Konsultasi proposal peringatan Maulid Nabi 1448 H',
+    ditemuiOleh: 'Ahmad Raihan (Sekbid 1)'
+  },
+  {
+    id: 'tamu-02',
+    tanggal: '2026-09-29',
+    waktu: '13:30 WIB',
+    nama: 'Salma Zahirah',
+    kelasInstansi: 'Perwakilan Kelas XI-3',
+    keperluan: 'Pengajuan aspirasi perbaikan kipas angin kelas',
+    ditemuiOleh: 'Fadhil Naufal (Sekretaris)'
+  }
+];
+
+export const INITIAL_EKSKUL: Ekstrakurikuler[] = [
+  {
+    id: 'eks-01',
+    namaEkskul: 'Paskibra Garda Teladan',
+    kategori: 'Kepemimpinan & Bela Negara',
+    pembinaGuru: 'Drs. Supriyadi, M.Pd.',
+    ketuaEkskul: 'Bagus Satrio Purnomo',
+    kontakKetua: '081299887766',
+    hariLatihan: 'Selasa & Kamis',
+    waktuLatihan: '15.30 - 17.30 WIB',
+    lokasiLatihan: 'Lapangan Upacara Utama',
+    jumlahAnggota: 48,
+    prestasiUnggulan: 'Juara 1 LKBB Tingkat Provinsi 2025'
+  },
+  {
+    id: 'eks-02',
+    namaEkskul: 'Pramuka Ambalan Soekarno - Fatmawati',
+    kategori: 'Kepemimpinan & Bela Negara',
+    pembinaGuru: 'Irwan Setiawan, S.Pd.',
+    ketuaEkskul: 'Muhammad Naufal',
+    kontakKetua: '085811223399',
+    hariLatihan: 'Jumat',
+    waktuLatihan: '14.00 - 17.00 WIB',
+    lokasiLatihan: 'Halaman Belakang & Selasar',
+    jumlahAnggota: 65,
+    prestasiUnggulan: 'Juara Umum Kemah Bakti Penegak Kota 2025'
+  },
+  {
+    id: 'eks-03',
+    namaEkskul: 'Palang Merah Remaja (PMR Wira)',
+    kategori: 'Kepemimpinan & Bela Negara',
+    pembinaGuru: 'dr. Hj. Nurjanah, M.Kes.',
+    ketuaEkskul: 'Nabila Zahra Putri',
+    kontakKetua: '087890123456',
+    hariLatihan: 'Rabu',
+    waktuLatihan: '15.30 - 17.00 WIB',
+    lokasiLatihan: 'Ruang UKS & Lapangan',
+    jumlahAnggota: 38,
+    prestasiUnggulan: 'Peringkat 1 Pertolongan Pertama Remaja PMI'
+  },
+  {
+    id: 'eks-04',
+    namaEkskul: 'Futsal & Sepakbola Teladan FC',
+    kategori: 'Olahraga',
+    pembinaGuru: 'Budi Santoso, S.Pd.Jas.',
+    ketuaEkskul: 'Rifki Hidayat',
+    kontakKetua: '081388776655',
+    hariLatihan: 'Senin & Sabtu',
+    waktuLatihan: '16.00 - 18.00 WIB',
+    lokasiLatihan: 'Lapangan Olahraga Tertutup',
+    jumlahAnggota: 52,
+    prestasiUnggulan: 'Juara 2 Turnamen Pelajar Piala Menpora Regional'
+  },
+  {
+    id: 'eks-05',
+    namaEkskul: 'TIK, Robotika & Cyber Shinobi Club',
+    kategori: 'Sains & TIK',
+    pembinaGuru: 'Rahmat Hidayat, S.Kom., M.T.',
+    ketuaEkskul: 'Alifian Ezra Maulana',
+    kontakKetua: '085912345678',
+    hariLatihan: 'Rabu & Jumat',
+    waktuLatihan: '15.30 - 17.30 WIB',
+    lokasiLatihan: 'Laboratorium Komputer 2',
+    jumlahAnggota: 35,
+    prestasiUnggulan: 'Medali Emas National Youth Robotic Expo 2025'
+  },
+  {
+    id: 'eks-06',
+    namaEkskul: 'Seni Tari Nusantara & Teater Gelora',
+    kategori: 'Seni & Budaya',
+    pembinaGuru: 'Endang Sulastri, S.Sn.',
+    ketuaEkskul: 'Zalfa Maharani Putri',
+    kontakKetua: '081233445566',
+    hariLatihan: 'Kamis & Sabtu',
+    waktuLatihan: '15.30 - 17.30 WIB',
+    lokasiLatihan: 'Ruang Kesenian & Auditorium',
+    jumlahAnggota: 42,
+    prestasiUnggulan: 'Penyaji Terbaik FLS2N Tingkat Kota 2025'
+  }
+];
+
+export const INITIAL_PEMILOS: KandidatPemilos[] = [
+  {
+    id: 'knd-01',
+    noUrut: 1,
+    namaKetua: 'Bagus Satrio Purnomo',
+    kelasKetua: 'XI MIPA 4',
+    namaWakil: 'Zalfa Maharani Putri',
+    kelasWakil: 'X-1',
+    visi: 'Mewujudkan kepemimpinan madrasah berintegritas tinggi, berdisiplin ksatria, unggul dalam adab dan teknologi.',
+    misi: [
+      'Meningkatkan kedisiplinan dan jiwa kepemimpinan berwawasan kebangsaan.',
+      'Memaksimalkan fasilitas pendukung ekstrakurikuler berprestasi.',
+      'Membangun budaya literasi digital dan komunikasi multilingual.'
+    ],
+    programUnggulan: 'Shinobi Leadership Camp & Teladan Digital Hub',
+    fotoUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=300',
+    perolehanSuara: 342
+  },
+  {
+    id: 'knd-02',
+    noUrut: 2,
+    namaKetua: 'Kayla Jessica Gunawan',
+    kelasKetua: 'XI MIPA 1',
+    namaWakil: 'Ahmad Raihan Alfathan',
+    kelasWakil: 'XI IPS 2',
+    visi: 'OSIS yang inklusif, kolaboratif, peduli lingkungan, dan berprestasi di tingkat nasional.',
+    misi: [
+      'Memperkuat sinergi antara OSIS, seluruh ekskul, dan guru pembina.',
+      'Mengembangkan gerakan peduli lingkungan Adiwiyata dan kantin sehat.',
+      'Menyelenggarakan pekan olahraga dan seni akbar antarmadrasah se-wilayah.'
+    ],
+    programUnggulan: 'Teladan Green Campus & Porseni Akbar Nusantara',
+    fotoUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300',
+    perolehanSuara: 418
+  },
+  {
+    id: 'knd-03',
+    noUrut: 3,
+    namaKetua: 'Dimas Aditya Pratama',
+    kelasKetua: 'XI IPS 3',
+    namaWakil: 'Alifian Ezra Maulana',
+    kelasWakil: 'XI MIPA 2',
+    visi: 'Membangun generasi wirausaha muda mandiri yang kreatif, adaptif, dan berjiwa sosial tinggi.',
+    misi: [
+      'Mendirikan inkubator bisnis siswa dan bazar kreatif bulanan.',
+      'Digitalisasi penuh layanan presensi dan voting aspirasi siswa.',
+      'Memperluas kemitraan beasiswa dan magang keterampilan industri.'
+    ],
+    programUnggulan: 'Teladan Business Incubator & E-Voting Pemilos 3.0',
+    fotoUrl: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&q=80&w=300',
+    perolehanSuara: 289
+  }
+];
+

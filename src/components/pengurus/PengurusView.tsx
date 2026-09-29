@@ -100,7 +100,7 @@ export const PengurusView: React.FC = () => {
       email: '',
       ttl: '',
       alamat: '',
-      fotoUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300',
+      fotoUrl: '',
       statusAktif: true,
       tanggalDilantik: '15 Juli 2026',
       catatanPrestasi: '',
@@ -485,29 +485,47 @@ export const PengurusView: React.FC = () => {
                 </div>
               </div>
 
-              {/* Photo Upload & Preview */}
+              {/* Photo Upload & Preview - Direct Device Upload without links */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Upload Foto Profil Resmi Pengurus (Untuk KTA & Biodata)
+                <label className="block text-xs font-bold text-slate-800 mb-1">
+                  Foto Resmi Pengurus (Pas Foto 3x4 untuk KTA & Biodata)
                 </label>
-                <div className="flex items-center gap-4 p-3 bg-slate-50 border border-slate-200 rounded-lg">
-                  <div className="w-14 h-16 rounded bg-slate-200 overflow-hidden shrink-0 border border-slate-300">
+                <div className="p-4 bg-orange-50/50 border-2 border-dashed border-orange-300 rounded-2xl flex flex-col sm:flex-row items-center gap-4 hover:border-orange-500 transition-colors">
+                  <div className="w-20 h-24 rounded-xl bg-white overflow-hidden shrink-0 border-2 border-orange-200 shadow-sm flex items-center justify-center">
                     {formData.fotoUrl ? (
-                      <img src={formData.fotoUrl} alt="Preview" className="w-full h-full object-cover" />
+                      <img src={formData.fotoUrl} alt="Preview Foto" className="w-full h-full object-cover" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-[10px] text-slate-400">
-                        Foto
+                      <div className="text-center p-2 text-slate-400">
+                        <Users className="w-8 h-8 mx-auto text-orange-300 mb-1" />
+                        <span className="text-[10px] font-bold block">Pas Foto</span>
                       </div>
                     )}
                   </div>
-                  <div className="flex-1">
-                    <label className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-100 rounded-lg shadow-2xs">
-                      <Upload className="w-3.5 h-3.5 text-slate-600" />
-                      Pilih Foto dari Komputer
-                      <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
-                    </label>
-                    <p className="text-[11px] text-slate-500 mt-1">
-                      Mendukung format JPG, PNG. Foto akan otomatis terpasang pada Kartu KTA.
+                  <div className="flex-1 text-center sm:text-left space-y-2">
+                    <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                      <label className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 text-xs font-extrabold text-white bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-700 hover:to-amber-600 rounded-xl shadow-md shadow-orange-500/20 transition-all cursor-pointer">
+                        <Upload className="w-4 h-4" />
+                        <span>Pilih Foto dari Galeri / Kamera / Komputer</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handlePhotoUpload}
+                          className="hidden"
+                        />
+                      </label>
+                      {formData.fotoUrl && (
+                        <button
+                          type="button"
+                          onClick={() => setFormData((prev) => ({ ...prev, fotoUrl: '' }))}
+                          className="px-3 py-2 text-xs font-bold text-rose-600 hover:bg-rose-50 border border-rose-200 rounded-xl transition-colors cursor-pointer"
+                        >
+                          Hapus Foto
+                        </button>
+                      )}
+                    </div>
+                    <p className="text-[11px] text-slate-500 leading-relaxed">
+                      ✓ <strong>Langsung dari galeri / kamera HP / komputer</strong> tanpa perlu upload link internet.<br />
+                      ✓ Foto langsung terpasang otomatis pada Kartu Tanda Anggota (KTA).
                     </p>
                   </div>
                 </div>

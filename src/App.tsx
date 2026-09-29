@@ -14,6 +14,9 @@ import { SertifikatView } from './components/sertifikat/SertifikatView';
 import { AspirasiView } from './components/aspirasi/AspirasiView';
 import { ProfilSekolahView } from './components/profil/ProfilSekolahView';
 import { LaporanAkhirView } from './components/laporan/LaporanAkhirView';
+import { InventarisView } from './components/inventaris/InventarisView';
+import { EkskulView } from './components/ekskul/EkskulView';
+import { SekretariatView } from './components/sekretariat/SekretariatView';
 
 function MainApp() {
   const { isAuthenticated } = useOsis();
@@ -41,6 +44,12 @@ function MainApp() {
         return <ProposalView />;
       case 'rapat':
         return <RapatView />;
+      case 'inventaris':
+        return <InventarisView />;
+      case 'ekskul':
+        return <EkskulView />;
+      case 'sekretariat':
+        return <SekretariatView />;
       case 'sertifikat':
         return <SertifikatView />;
       case 'aspirasi':
@@ -55,7 +64,7 @@ function MainApp() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF6F0] text-[#2C1810] flex selection:bg-[#7B1113] selection:text-[#FFFDD0]">
+    <div className="min-h-screen bg-[#FAF5EB] text-[#0F172A] flex selection:bg-[#F97316] selection:text-white">
       {/* Sidebar Navigation */}
       <Sidebar
         activeTab={activeTab}
@@ -65,7 +74,7 @@ function MainApp() {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 md:pl-64 flex flex-col min-w-0">
+      <div className="flex-1 md:pl-64 print:pl-0 print:m-0 flex flex-col min-w-0">
         {/* Top Header */}
         <Header
           activeTab={activeTab}
@@ -73,13 +82,21 @@ function MainApp() {
         />
 
         {/* Viewport Content */}
-        <main className="flex-1 p-4 md:p-8 max-w-7xl w-full mx-auto">
+        <main className="flex-1 p-4 md:p-8 max-w-7xl w-full mx-auto print:p-0 print:m-0 print:max-w-full">
           {renderActiveView()}
         </main>
 
         {/* Footer */}
-        <footer className="border-t border-[#EADBCE] bg-[#FFFDF9] py-4 px-6 text-center text-xs text-[#7A6158] no-print">
-          OSIS / OSIM 360 · Sistem Tata Kelola Terpadu 1 Tahun Masa Bakti Madrasah & Sekolah
+        <footer className="border-t border-orange-200/60 bg-white/90 py-3.5 px-6 text-center text-xs text-slate-500 no-print flex flex-col sm:flex-row items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5 font-medium">
+            <span>Aplikasi resmi OSIS KONOHA 360</span>
+            <span className="text-orange-400">·</span>
+            <span className="text-orange-600 font-bold">Semangat Api (Hi no Ishi) 🍃</span>
+          </div>
+          <div className="text-slate-600 font-semibold flex items-center gap-1 text-[11px]">
+            <span>Karya & Ciptaan:</span>
+            <strong className="text-orange-600 font-bold">Nandi Achdarizal Sutisna</strong>
+          </div>
         </footer>
       </div>
     </div>

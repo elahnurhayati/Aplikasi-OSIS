@@ -15,6 +15,10 @@ import {
   PlusCircle,
   Download,
   AlertCircle,
+  Package,
+  Compass,
+  Clock as ClockIcon,
+  Flame,
 } from 'lucide-react';
 import { useOsis } from '../../context/OsisContext';
 import { ActiveTab } from '../layout/Sidebar';
@@ -33,6 +37,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ setActiveTab }) =>
     dokumen,
     rapat,
     aspirasi,
+    inventaris,
+    peminjaman,
+    ekskul,
     totalKasMasuk,
     totalKasKeluar,
     saldoKas,
@@ -53,56 +60,67 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ setActiveTab }) =>
 
   return (
     <div className="space-y-6">
-      {/* Banner / Hero Masa Bakti - Rich Merah Marun & Cream */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#650E10] via-[#7B1113] to-[#450709] text-[#FFFDD0] p-6 md:p-8 shadow-md border-2 border-[#8C1B1F]">
+      {/* Banner / Hero Masa Bakti - Epic Konohagakure Anime Aesthetic */}
+      <div className="relative overflow-hidden rounded-3xl bg-slate-900 text-white p-6 md:p-8 shadow-xl border-2 border-orange-500/40">
+        {/* Konoha Village Background Art */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/src/assets/images/konoha_village_banner_1790708149172.jpg"
+            alt="Konohagakure Landscape"
+            className="w-full h-full object-cover opacity-35 filter saturate-150"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/85 to-[#EA580C]/35" />
+        </div>
+
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2 max-w-2xl">
-            <div className="flex items-center gap-2 text-xs font-bold text-[#F2D7B3] tracking-wider uppercase">
-              <span className="w-2 h-2 rounded-full bg-[#FFFDD0] animate-pulse" />
-              Sistem Tata Kelola 1 Tahun Jabatan · Masa Bakti {schoolProfile.masaBakti}
+            <div className="flex items-center gap-2 text-xs font-black text-amber-300 tracking-wider uppercase">
+              <span className="w-2.5 h-2.5 rounded-full bg-orange-500 animate-ping" />
+              <span>Sistem Tata Kelola 1 Tahun · Semangat Api Konoha</span>
             </div>
-            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#FFFDD0]">
-              {schoolProfile.namaKabinet}
+            <h1 className="text-2xl md:text-3xl font-black tracking-tight text-white flex items-center gap-2">
+              <span>{schoolProfile.namaKabinet}</span>
+              <span className="text-orange-400 text-xl">🍃</span>
             </h1>
-            <p className="text-xs md:text-sm text-[#F7E6D4] leading-relaxed font-light">
+            <p className="text-xs md:text-sm text-orange-100/90 leading-relaxed font-medium">
               "{schoolProfile.mottoKabinet}"
             </p>
-            <div className="pt-2 flex flex-wrap items-center gap-4 text-xs text-[#EAD0BA]">
-              <span>Ketua: <strong className="text-[#FFFDD0] font-bold">{schoolProfile.ketuaOsis}</strong></span>
+            <div className="pt-2 flex flex-wrap items-center gap-4 text-xs text-slate-300">
+              <span>Ketua: <strong className="text-amber-300 font-bold">{schoolProfile.ketuaOsis}</strong></span>
               <span>·</span>
-              <span>Wakil: <strong className="text-[#FFFDD0] font-bold">{schoolProfile.wakilKetuaOsis}</strong></span>
+              <span>Wakil: <strong className="text-amber-300 font-bold">{schoolProfile.wakilKetuaOsis}</strong></span>
               <span>·</span>
-              <span>Pembina: <strong className="text-[#FFFDD0] font-bold">{schoolProfile.pembinaOsis}</strong></span>
+              <span>Pembina: <strong className="text-amber-300 font-bold">{schoolProfile.pembinaOsis}</strong></span>
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row md:flex-col gap-2.5 shrink-0">
             <button
               onClick={() => setActiveTab('dokumen')}
-              className="px-4 py-2.5 bg-[#FFFDD0] hover:bg-white text-[#7B1113] text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+              className="px-4 py-2.5 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white text-xs font-extrabold rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-orange-500/25 cursor-pointer"
             >
-              <FileSignature className="w-4 h-4 text-[#7B1113]" />
-              Buat Surat & Proposal
+              <FileSignature className="w-4 h-4 text-white" />
+              Buat Gulungan Surat
             </button>
             <button
               onClick={() => setActiveTab('pengurus')}
-              className="px-4 py-2.5 bg-[#52090B] hover:bg-[#400608] text-[#FFFDD0] text-xs font-semibold rounded-xl transition-colors border border-[#8C1B1F] flex items-center justify-center gap-2 cursor-pointer"
+              className="px-4 py-2.5 bg-slate-900/90 hover:bg-slate-800 text-amber-200 text-xs font-bold rounded-xl transition-colors border border-orange-500/40 flex items-center justify-center gap-2 cursor-pointer shadow-xs"
             >
-              <Users className="w-4 h-4 text-[#F2D7B3]" />
-              Cetak KTA Pengurus
+              <Users className="w-4 h-4 text-orange-400" />
+              Cetak KTA Shinobi
             </button>
           </div>
         </div>
 
         {/* 1 Year Tenure Progress Meter */}
-        <div className="mt-6 pt-4 border-t border-[#8C1B1F]/70 flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
-          <div className="text-[#F2D7B3]">
-            <span className="font-bold text-[#FFFDD0]">Target Kinerja 1 Tahun:</span>{' '}
-            {prokerSelesaiCount} dari {proker.length} Program Kerja Tuntas ({persentaseProkerSelesai}%)
+        <div className="relative z-10 mt-6 pt-4 border-t border-white/15 flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
+          <div className="text-slate-200">
+            <span className="font-extrabold text-amber-300">Target Kinerja 1 Tahun:</span>{' '}
+            {prokerSelesaiCount} dari {proker.length} Misi Kerja Tuntas ({persentaseProkerSelesai}%)
           </div>
-          <div className="w-full md:w-64 bg-[#3D080A] rounded-full h-2.5 overflow-hidden border border-[#8C1B1F]">
+          <div className="w-full md:w-64 bg-slate-950/80 rounded-full h-2.5 overflow-hidden border border-orange-500/40">
             <div
-              className="bg-[#FFFDD0] h-2.5 rounded-full transition-all duration-500"
+              className="bg-gradient-to-r from-amber-400 to-orange-500 h-2.5 rounded-full transition-all duration-500"
               style={{ width: `${Math.min(100, Math.max(5, persentaseProkerSelesai))}%` }}
             />
           </div>
@@ -200,45 +218,60 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ setActiveTab }) =>
       </div>
 
       {/* Quick Action Dock */}
-      <div className="bg-slate-100/80 border border-slate-200 p-3.5 rounded-xl flex flex-wrap items-center justify-between gap-3">
-        <div className="text-xs font-semibold text-slate-700 flex items-center gap-2">
+      <div className="bg-white border border-orange-200/80 p-4 rounded-2xl flex flex-wrap items-center justify-between gap-3 shadow-xs">
+        <div className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+          <Flame className="w-4 h-4 text-orange-500 fill-orange-500" />
           <span>Akses Cepat 1 Tahun Jabatan:</span>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={() => setActiveTab('dokumen')}
-            className="px-3 py-1.5 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 text-xs font-medium rounded-lg transition-colors shadow-2xs flex items-center gap-1.5"
+            className="px-3 py-1.5 bg-slate-50 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-orange-950 text-xs font-semibold rounded-xl transition-colors shadow-2xs flex items-center gap-1.5 cursor-pointer"
           >
-            <FileText className="w-3.5 h-3.5 text-blue-600" />
+            <FileText className="w-3.5 h-3.5 text-orange-600" />
             Surat Keluar / Masuk
           </button>
           <button
             onClick={() => setActiveTab('proposal')}
-            className="px-3 py-1.5 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 text-xs font-medium rounded-lg transition-colors shadow-2xs flex items-center gap-1.5"
+            className="px-3 py-1.5 bg-slate-50 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-orange-950 text-xs font-semibold rounded-xl transition-colors shadow-2xs flex items-center gap-1.5 cursor-pointer"
           >
             <FileSignature className="w-3.5 h-3.5 text-indigo-600" />
             Buat Proposal / LPJ
           </button>
           <button
             onClick={() => setActiveTab('keuangan')}
-            className="px-3 py-1.5 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 text-xs font-medium rounded-lg transition-colors shadow-2xs flex items-center gap-1.5"
+            className="px-3 py-1.5 bg-slate-50 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-orange-950 text-xs font-semibold rounded-xl transition-colors shadow-2xs flex items-center gap-1.5 cursor-pointer"
           >
             <PlusCircle className="w-3.5 h-3.5 text-emerald-600" />
             Catat Kas Baru
           </button>
           <button
-            onClick={() => setActiveTab('sertifikat')}
-            className="px-3 py-1.5 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 text-xs font-medium rounded-lg transition-colors shadow-2xs flex items-center gap-1.5"
+            onClick={() => setActiveTab('inventaris')}
+            className="px-3 py-1.5 bg-slate-50 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-orange-950 text-xs font-semibold rounded-xl transition-colors shadow-2xs flex items-center gap-1.5 cursor-pointer"
           >
-            <Award className="w-3.5 h-3.5 text-amber-600" />
-            Cetak Piagam / Sertifikat
+            <Package className="w-3.5 h-3.5 text-amber-600" />
+            Gudang Logistik ({inventaris.length})
           </button>
           <button
-            onClick={() => setActiveTab('rapat')}
-            className="px-3 py-1.5 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 text-xs font-medium rounded-lg transition-colors shadow-2xs flex items-center gap-1.5"
+            onClick={() => setActiveTab('ekskul')}
+            className="px-3 py-1.5 bg-slate-50 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-orange-950 text-xs font-semibold rounded-xl transition-colors shadow-2xs flex items-center gap-1.5 cursor-pointer"
           >
-            <Clock className="w-3.5 h-3.5 text-slate-600" />
-            Notulensi & Presensi
+            <Compass className="w-3.5 h-3.5 text-blue-600" />
+            Ekskul ({ekskul.length})
+          </button>
+          <button
+            onClick={() => setActiveTab('sekretariat')}
+            className="px-3 py-1.5 bg-slate-50 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-orange-950 text-xs font-semibold rounded-xl transition-colors shadow-2xs flex items-center gap-1.5 cursor-pointer"
+          >
+            <ClockIcon className="w-3.5 h-3.5 text-slate-600" />
+            Piket & Buku Tamu
+          </button>
+          <button
+            onClick={() => setActiveTab('sertifikat')}
+            className="px-3 py-1.5 bg-slate-50 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-orange-950 text-xs font-semibold rounded-xl transition-colors shadow-2xs flex items-center gap-1.5 cursor-pointer"
+          >
+            <Award className="w-3.5 h-3.5 text-amber-600" />
+            Cetak Piagam
           </button>
         </div>
       </div>

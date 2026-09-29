@@ -70,6 +70,18 @@ export interface PengurusOsis {
 
 export type ProkerStatus = 'Perencanaan' | 'Disetujui Pembina' | 'Sedang Berjalan' | 'Selesai' | 'Dievaluasi' | 'Dibatalkan';
 
+export interface RabItem {
+  id: string;
+  namaItem: string;
+  divisi: 'Acara & Lomba' | 'Konsumsi' | 'Pubdekdok & Media' | 'Perlengkapan & Sound' | 'Hadiah & Piagam' | 'Kesekretariatan & ATK' | 'Lain-lain';
+  volume: number;
+  satuan: string;
+  hargaSatuan: number;
+  realisasiVolume?: number;
+  realisasiHargaSatuan?: number;
+  keterangan?: string;
+}
+
 export interface ProgramKerja {
   id: string;
   namaProker: string;
@@ -87,6 +99,7 @@ export interface ProgramKerja {
   persentaseProgress: number;
   kpiTarget: string;
   laporanRingkas: string;
+  rabItems?: RabItem[];
 }
 
 export type TipeTransaksi = 'masuk' | 'keluar';
@@ -180,3 +193,82 @@ export interface AspirasiSiswa {
   responOsis?: string;
   ditanganiOleh?: string;
 }
+
+export type KondisiBarang = 'Baik' | 'Rusak Ringan' | 'Rusak Berat';
+export type KategoriBarang = 'Sound & Elektronik' | 'Dokumentasi & Pubdekdok' | 'Olahraga & Lomba' | 'Kesekretariatan & ATK' | 'Tenda & Lapangan' | 'Bendera & Atribut' | 'Lain-lain';
+
+export interface InventarisBarang {
+  id: string;
+  kodeBarang: string;
+  namaBarang: string;
+  kategori: KategoriBarang;
+  jumlahTotal: number;
+  kondisiBaik: number;
+  kondisiRusak: number;
+  sedangDipinjam: number;
+  lokasi: string;
+  keterangan: string;
+}
+
+export interface PeminjamanBarang {
+  id: string;
+  kodePinjam: string;
+  namaPeminjam: string;
+  kontak: string;
+  organisasiAtauKelas: string;
+  namaBarang: string;
+  jumlah: number;
+  tanggalPinjam: string;
+  rencanaKembali: string;
+  tanggalKembaliNyata?: string;
+  status: 'Aktif Dipinjam' | 'Sudah Dikembalikan' | 'Terlambat' | 'Rusak / Perlu Penggantian';
+  petugasOsis: string;
+  catatan?: string;
+}
+
+export interface JadwalPiket {
+  id: string;
+  hari: 'Senin' | 'Selasa' | 'Rabu' | 'Kamis' | 'Jumat' | 'Sabtu';
+  koordinator: string;
+  anggotaPiket: string[];
+  tugasRutin: string;
+}
+
+export interface BukuTamu {
+  id: string;
+  tanggal: string;
+  waktu: string;
+  nama: string;
+  kelasInstansi: string;
+  keperluan: string;
+  ditemuiOleh: string;
+}
+
+export interface Ekstrakurikuler {
+  id: string;
+  namaEkskul: string;
+  kategori: 'Olahraga' | 'Seni & Budaya' | 'Keagamaan' | 'Kepemimpinan & Bela Negara' | 'Sains & TIK' | 'Bahasa & Literasi';
+  pembinaGuru: string;
+  ketuaEkskul: string;
+  kontakKetua: string;
+  hariLatihan: string;
+  waktuLatihan: string;
+  lokasiLatihan: string;
+  jumlahAnggota: number;
+  prestasiUnggulan: string;
+}
+
+export interface KandidatPemilos {
+  id: string;
+  noUrut: number;
+  namaKetua: string;
+  kelasKetua: string;
+  namaWakil: string;
+  kelasWakil: string;
+  visi: string;
+  misi: string[];
+  programUnggulan: string;
+  fotoUrl: string;
+  perolehanSuara: number;
+}
+

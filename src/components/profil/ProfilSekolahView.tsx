@@ -10,15 +10,42 @@ import {
   Award,
   Users2,
   BookOpen,
+  Lock,
+  KeyRound,
+  ShieldCheck,
+  Flame,
+  Sparkles,
 } from 'lucide-react';
 import { useOsis } from '../../context/OsisContext';
 import { SchoolProfile } from '../../types';
 import { fileToBase64 } from '../../utils/exportUtils';
 
 export const ProfilSekolahView: React.FC = () => {
-  const { schoolProfile, updateSchoolProfile } = useOsis();
+  const { schoolProfile, updateSchoolProfile, changePassword, adminUsername } = useOsis();
   const [formData, setFormData] = useState<SchoolProfile>(schoolProfile);
   const [savedSuccess, setSavedSuccess] = useState(false);
+
+  // Password state
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [pwdMessage, setPwdMessage] = useState<{ text: string; isError: boolean } | null>(null);
+
+  const handleChangePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setPwdMessage(null);
+    if (newPassword !== confirmPassword) {
+      setPwdMessage({ text: 'Konfirmasi password baru tidak cocok!', isError: true });
+      return;
+    }
+    const res = changePassword(oldPassword, newPassword);
+    setPwdMessage({ text: res.message, isError: !res.success });
+    if (res.success) {
+      setOldPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+    }
+  };
 
   const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: 'logoSekolahUrl' | 'logoOsisUrl') => {
     if (e.target.files && e.target.files[0]) {
@@ -98,22 +125,22 @@ export const ProfilSekolahView: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Logo Madrasah / Sekolah */}
-            <div className="p-4 bg-[#FAF6F0] border border-[#E5D5C3] rounded-2xl flex items-center gap-4">
-              <div className="w-16 h-16 rounded-xl bg-white border border-[#D9C7B6] p-1 flex items-center justify-center shrink-0 overflow-hidden shadow-2xs">
+            <div className="p-5 bg-orange-50/50 border-2 border-dashed border-orange-300 rounded-2xl flex flex-col sm:flex-row items-center gap-4 hover:border-orange-500 transition-colors">
+              <div className="w-20 h-20 rounded-2xl bg-white border border-orange-200 p-2 flex items-center justify-center shrink-0 overflow-hidden shadow-sm">
                 <img
                   src={formData.logoSekolahUrl}
                   alt="Logo Madrasah / Sekolah"
                   className="w-full h-full object-contain"
                 />
               </div>
-              <div className="space-y-1">
-                <div className="text-xs font-bold text-[#3D1416]">Logo Resmi Madrasah / Sekolah</div>
-                <p className="text-[11px] text-[#7A6158]">
-                  Logo instansi pada Kop Surat, lembar pengesahan proposal, dan dokumen resmi.
+              <div className="space-y-1.5 text-center sm:text-left flex-1">
+                <div className="text-xs font-black text-slate-900">Logo Resmi Madrasah / Sekolah</div>
+                <p className="text-[11px] text-slate-500 leading-snug">
+                  Dipasang pada Kop Surat, lembar pengesahan proposal & LPJ, dan dokumen resmi.
                 </p>
-                <label className="cursor-pointer inline-flex items-center gap-1 text-[11px] font-bold text-[#7B1113] bg-white border border-[#D9C7B6] px-3 py-1 rounded-lg hover:bg-[#F5ECE1] shadow-2xs">
-                  <Upload className="w-3 h-3" />
-                  Ganti Logo Madrasah
+                <label className="cursor-pointer inline-flex items-center gap-1.5 text-xs font-bold text-white bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-700 hover:to-amber-600 px-3.5 py-1.5 rounded-xl shadow-xs transition-all">
+                  <Upload className="w-3.5 h-3.5" />
+                  <span>Pilih Logo dari HP / Komputer</span>
                   <input
                     type="file"
                     accept="image/*"
@@ -121,26 +148,29 @@ export const ProfilSekolahView: React.FC = () => {
                     className="hidden"
                   />
                 </label>
+                <div className="text-[10px] text-slate-400">
+                  Langsung pilih file gambar tanpa perlu link internet.
+                </div>
               </div>
             </div>
 
             {/* Logo OSIS / OSIM */}
-            <div className="p-4 bg-[#FAF6F0] border border-[#E5D5C3] rounded-2xl flex items-center gap-4">
-              <div className="w-16 h-16 rounded-xl bg-white border border-[#D9C7B6] p-1 flex items-center justify-center shrink-0 overflow-hidden shadow-2xs">
+            <div className="p-5 bg-orange-50/50 border-2 border-dashed border-orange-300 rounded-2xl flex flex-col sm:flex-row items-center gap-4 hover:border-orange-500 transition-colors">
+              <div className="w-20 h-20 rounded-2xl bg-white border border-orange-200 p-2 flex items-center justify-center shrink-0 overflow-hidden shadow-sm">
                 <img
                   src={formData.logoOsisUrl}
                   alt="Logo OSIS / OSIM"
                   className="w-full h-full object-contain"
                 />
               </div>
-              <div className="space-y-1">
-                <div className="text-xs font-bold text-[#3D1416]">Logo Resmi OSIS / OSIM</div>
-                <p className="text-[11px] text-[#7A6158]">
-                  Digunakan pada Kop Surat, Kartu KTA, dan Piagam Sertifikat siswa.
+              <div className="space-y-1.5 text-center sm:text-left flex-1">
+                <div className="text-xs font-black text-slate-900">Logo Resmi OSIS / OSIM</div>
+                <p className="text-[11px] text-slate-500 leading-snug">
+                  Dipasang pada Kop Surat, Kartu KTA Shinobi, dan Piagam Sertifikat siswa.
                 </p>
-                <label className="cursor-pointer inline-flex items-center gap-1 text-[11px] font-bold text-[#7B1113] bg-white border border-[#D9C7B6] px-3 py-1 rounded-lg hover:bg-[#F5ECE1] shadow-2xs">
-                  <Upload className="w-3 h-3" />
-                  Ganti Logo OSIS/OSIM
+                <label className="cursor-pointer inline-flex items-center gap-1.5 text-xs font-bold text-white bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-700 hover:to-amber-600 px-3.5 py-1.5 rounded-xl shadow-xs transition-all">
+                  <Upload className="w-3.5 h-3.5" />
+                  <span>Pilih Logo OSIS dari HP / Komputer</span>
                   <input
                     type="file"
                     accept="image/*"
@@ -148,6 +178,9 @@ export const ProfilSekolahView: React.FC = () => {
                     className="hidden"
                   />
                 </label>
+                <div className="text-[10px] text-slate-400">
+                  Langsung pilih file gambar tanpa perlu link internet.
+                </div>
               </div>
             </div>
           </div>
@@ -399,13 +432,130 @@ export const ProfilSekolahView: React.FC = () => {
         <div className="flex items-center justify-end gap-3 pt-2">
           <button
             type="submit"
-            className="px-6 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-2 shadow-xs"
+            className="px-6 py-2.5 bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-700 hover:to-amber-600 text-white text-xs font-bold rounded-xl transition-all flex items-center gap-2 shadow-md shadow-orange-500/20 cursor-pointer"
           >
-            <Save className="w-4 h-4 text-amber-400" />
-            Simpan Perubahan Data Lembaga
+            <Save className="w-4 h-4 text-white" />
+            Simpan Perubahan Data Lembaga & Profil
           </button>
         </div>
       </form>
+
+      {/* 5. KEAMANAN & PENGATURAN PASSWORD LOGIN ADMIN */}
+      <div className="bg-white p-6 rounded-2xl border border-orange-200/80 shadow-xs space-y-4">
+        <div className="flex items-center justify-between border-b border-orange-100 pb-3">
+          <div className="flex items-center gap-2">
+            <Lock className="w-5 h-5 text-orange-600" />
+            <h3 className="text-sm font-bold text-slate-900">
+              5. Keamanan & Pengaturan Password Login Administrator
+            </h3>
+          </div>
+          <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-orange-100 text-orange-800 border border-orange-200">
+            Username: {adminUsername}
+          </span>
+        </div>
+
+        <p className="text-xs text-slate-500">
+          Ubah kata sandi login admin untuk mengamankan data dan arsip OSIS madrasah selama 1 tahun masa bakti. Kredensial mula-mula sistem adalah <strong className="font-mono text-slate-700">User: Admin</strong> dan <strong className="font-mono text-slate-700">Password: Admin123</strong>.
+        </p>
+
+        {pwdMessage && (
+          <div
+            className={`p-3 rounded-xl text-xs font-bold flex items-center gap-2 ${
+              pwdMessage.isError
+                ? 'bg-rose-50 border border-rose-200 text-rose-700'
+                : 'bg-emerald-50 border border-emerald-200 text-emerald-700'
+            }`}
+          >
+            <ShieldCheck className="w-4 h-4 shrink-0" />
+            <span>{pwdMessage.text}</span>
+          </div>
+        )}
+
+        <form onSubmit={handleChangePasswordSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs pt-2">
+          <div>
+            <label className="block font-bold text-slate-700 mb-1">Password Saat Ini</label>
+            <div className="relative">
+              <KeyRound className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="password"
+                required
+                placeholder="Masukkan password lama"
+                value={oldPassword}
+                onChange={(e) => setOldPassword(e.target.value)}
+                className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block font-bold text-slate-700 mb-1">Password Baru</label>
+            <div className="relative">
+              <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="password"
+                required
+                placeholder="Minimal 4 karakter"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block font-bold text-slate-700 mb-1">Ulangi Password Baru</label>
+            <div className="flex items-center gap-2">
+              <div className="relative flex-1">
+                <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <input
+                  type="password"
+                  required
+                  placeholder="Ketik ulang password baru"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
+              </div>
+              <button
+                type="submit"
+                className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl transition-colors whitespace-nowrap shadow-xs cursor-pointer shrink-0"
+              >
+                Ubah Password
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      {/* 6. INFORMASI PENGEMBANG APLIKASI (HAK CIPTA & KARYA) */}
+      <div className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden">
+        <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-2 text-center md:text-left">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/20 text-amber-200 text-xs font-black tracking-wide uppercase border border-white/20">
+              <Flame className="w-3.5 h-3.5 text-amber-300 fill-amber-300 animate-pulse" />
+              <span>Semangat Api (Hi no Ishi) 🍃</span>
+            </div>
+            <h3 className="text-xl font-black tracking-tight">
+              Sistem Manajemen OSIS 360 Terlengkap 1 Tahun
+            </h3>
+            <p className="text-xs text-orange-100 max-w-xl leading-relaxed">
+              Aplikasi ini dirancang secara menyeluruh untuk mencakup seluruh kebutuhan operasional organisasi siswa dan madrasah selama 365 hari masa bakti: Surat-menyurat resmi, Proposal, LPJ, Keuangan Kas, Notulensi Rapat, Inventaris Sarana, Koordinasi Ekskul, Bilik Suara Pemilos, hingga Sertifikasi dan Piagam.
+            </p>
+          </div>
+
+          <div className="bg-white/10 backdrop-blur-md border border-white/30 rounded-2xl p-4 text-center shrink-0 w-full md:w-auto">
+            <div className="text-[11px] font-bold text-orange-200 uppercase tracking-widest">
+              Aplikasi Ciptaan & Karya Asli
+            </div>
+            <div className="text-lg font-black text-white mt-0.5">
+              Nandi Achdarizal Sutisna
+            </div>
+            <div className="text-[10px] text-amber-200 font-semibold mt-1">
+              Hak Cipta Terlindungi · Edisi Shinobi 1 Tahun Penuh
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
